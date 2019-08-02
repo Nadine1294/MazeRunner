@@ -115,7 +115,9 @@ class MazeSolverAlgo:
     def loadMaze(self,pathToConfigFile):
         # check whether a function numpy.loadtxt() could be useful
         # TODO: this is you job now :-)
-        pass
+        self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
+        print(self.grid)
+        
 
     # clears the complete maze 
     def clearMaze(self):
@@ -175,13 +177,13 @@ class MazeSolverAlgo:
 
 
 if __name__ == '__main__':
-    mg = MazeSolverAlgoTemplate()
+    mg = MazeSolverAlgo()
 
 
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    #mg.loadMaze("..\\MazeExamples\\Maze1.txt")
-    #solutionString = mg.solveMaze()
-    #print(solutionString)
+    mg.loadMaze("/Users/nadinedussel/MazeRunner/MazeExamples/Maze1.txt")
+    solutionString = mg.solveMaze()
+    print(solutionString)
    
