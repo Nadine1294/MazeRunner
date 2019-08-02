@@ -116,7 +116,17 @@ class MazeSolverAlgo:
         # check whether a function numpy.loadtxt() could be useful
         # TODO: this is you job now :-)
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
-        print(self.grid)
+        
+        self.setDimCols=self.grid.shape[0]
+        self.setDimRows=self.grid.shape[1]
+
+        start_arr = numpy.where(self.grid == 2)
+        self.startRow=int(start_arr[0][0])
+        self.startCol=int(start_arr[1][0])
+
+        end_arr = numpy.where(self.grid == 3)
+        self.endRow=int(end_arr[0][0])
+        self.endCol=int(end_arr[1][0])
         
 
     # clears the complete maze 
@@ -184,6 +194,8 @@ if __name__ == '__main__':
     #       loading new different mazes --> just load any maze you would like from a file
 
     mg.loadMaze("/Users/nadinedussel/MazeRunner/MazeExamples/Maze1.txt")
+    mg.printMaze()
     solutionString = mg.solveMaze()
     print(solutionString)
+
    
