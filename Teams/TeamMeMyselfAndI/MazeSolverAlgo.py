@@ -17,67 +17,73 @@ class MazeSolverAlgo:
 
     def __init__(self):
         # TODO: this is you job now :-)
-        self.rows = 0
-        self.columns = 0
         self.dimCols = 0 
         self.dimRows = 0 
-        self.setStartCol = 0 
-        self.setStartRow = 0 
-        self.setEndCol = 0 
-        self.setEndRow = 0 
+        self.startCol = 0 
+        self.startRow = 0 
+        self.endCol = 0 
+        self.endRow = 0 
         self.grid=[[]] 
         print("Algo aufgerufen")
 
     # Setter method for the maze dimension of the rows
     def setDimRows(self, rows):
+        print("XX SET DIM ROW XX")
         # TODO: this is you job now :-)
-        self.rows = rows
         self.dimRows = rows
 
     # Setter method for the maze dimension of the columns
     def setDimCols(self, cols):
+        print("XX SET DIM COL XX")
         # TODO: this is you job now :-)
-        self.columns = cols
         self.dimCols = cols
         
     # Setter method for the column of the start position 
     def setStartCol(self, col):
         # TODO: this is you job now :-)
-        pass
+        self.startCol = col
+        print("XX SET START COL XX: ",self.startCol)
 
     # Setter method for the row of the start position 
     def setStartRow(self, row):
         # TODO: this is you job now :-)
-        pass
+        self.startRow = row
+        print("XX SET START ROW XX: " , self.startRow)
 
     # Setter method for the column of the end position 
-    def setEndCol(self, col):
+    def setEndCol(self, col):  
         # TODO: this is you job now :-)
-        pass
+        self.endCol = col
+        print("XX SET END COL XX: " , self.endCol)
 
     # Setter method for the row of the end position 
-    def setEndRow(self, row):
+    def setEndRow(self, row):   
         # TODO: this is you job now :-)
-        pass
+        self.endRow = row
+        print("XX SET END ROW XX: " , self.endRow)
 
     # Setter method for blocked grid elements
     def setBlocked(self,row ,col):
+        print("XX SET BLOCKED MAZE XX")
         # TODO: this is you job now :-)
-        pass
+        self.grid[row][col] = self.BLOCKED
 
  
     # Start to build up a new maze
     # HINT: don't forget to initialize all member variables of this class (grid, start position, end position, dimension,...)
     def startMaze(self, rows, columns):
-        print("ich war hierXXXXXXXXXXX")
+        print("XX START MAZE XX")
         # TODO: this is you job now :-)
         #HINT: populate grid with dimension row,column with zeros
-        self.dimRows = self.EMPTY
-        self.dimCols = self.EMPTY
-        self.setStartRow = self.EMPTY
-        self.setStartCol = self.EMPTY
-        self.setEndRow = self.EMPTY
-        self.setEndCol = self.EMPTY
+        self.dimRows = rows
+        self.dimCols = columns
+
+        if rows == 0 and columns == 0:
+            self.startRow = self.EMPTY
+            self.startCol = self.EMPTY
+            self.endRow = self.EMPTY
+            self.endCol = self.EMPTY
+        
         self.grid = [[]]
 
         if rows > 0 and columns > 0:
@@ -89,14 +95,21 @@ class MazeSolverAlgo:
 
     # Define what shall happen after the full information of a maze has been received
     def endMaze(self):
+        print("XX END MAZE 1 XX")
         # TODO: this is you job now :-)
         # HINT: did you set start position and end position correctly?
-        pass
+        print(self.startRow, "+", self.startCol, "+", self.endRow, "+", self.endCol)
+        self.grid[self.startRow][self.startCol] = self.START
+        self.grid[self.endRow][self.endCol] = self.TARGET
+
+        
+        
 
     # just prints a maze on the command line
     def printMaze(self):
+        print("XX PRINT XX")
         # TODO: this is you job now :-)
-        pass
+        print(self.grid)
 
     # loads a maze from a file pathToConfigFile
     def loadMaze(self,pathToConfigFile):
@@ -107,7 +120,7 @@ class MazeSolverAlgo:
     # clears the complete maze 
     def clearMaze(self):
         # TODO: this is you job now :-)
-        pass
+        self.startMaze(0,0)
   
     # Decides whether a certain row,column grid element is inside the maze or outside
     def isInGrid(self,row,column):

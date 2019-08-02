@@ -35,6 +35,8 @@ class MazeSolverClient:
         # HINT: don't forget to create your algorithm class here, e.g.
         self.solver = MazeSolverAlgo()
 
+        #self.solver.printMaze()
+
     # Implement MQTT publishing function
     def publish(self, topic, message=None, qos=0, retain=False):
         # TODO: this is you job now :-)
@@ -58,6 +60,7 @@ class MazeSolverClient:
             elif payload == "solve":
                 self.solver.solveMaze()
             elif payload == "end":
+                print("XX Payload END XX")
                 self.solver.endMaze()
                 self.solver.printMaze()
             else:
