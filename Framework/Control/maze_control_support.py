@@ -113,10 +113,12 @@ def maze_solver_action():
 def mqtt_broker():
     print('MQTT Broker started')
     sys.stdout.flush()
+    print("sysPlattform",sys.platform)
     if sys.platform == "win32":
         executeSript=os.path.join(projectDirectory,"Framework","MQTTBroker","mosquitto.exe")
         control.mqtt_broker_proc = Popen([executeSript],shell=False) # something long running
-   
+
+             
 
 def load_team(team):
     print('Load {}'.format(team))
