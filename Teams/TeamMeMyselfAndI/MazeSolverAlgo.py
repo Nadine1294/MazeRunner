@@ -119,7 +119,8 @@ class MazeSolverAlgo:
         
         self.setDimCols=self.grid.shape[0]
         self.setDimRows=self.grid.shape[1]
-
+        self.dimCols=self.grid.shape[0]
+        self.dimRows=self.grid.shape[1]
         start_arr = numpy.where(self.grid == 2)
         self.startRow=int(start_arr[0][0])
         self.startCol=int(start_arr[1][0])
@@ -137,14 +138,53 @@ class MazeSolverAlgo:
     # Decides whether a certain row,column grid element is inside the maze or outside
     def isInGrid(self,row,column):
         # TODO: this is you job now :-)
-        pass
+        if row < 0:
+            return False
+        if column < 0:
+            return False
+        if row > self.dimRows:
+            return False
+        if column > self.dimCols:
+            return False
+        else:
+            return True
 
 
     # Returns a list of all grid elements neighboured to the grid element row,column
     def getNeighbours(self,row,column):
         # TODO: this is you job now :-)
+        neighbours =[]
+
+        #neighbours out of Grid
+        if self.isInGrid(row,column) == False:
+            return neighbours 
+        
+        #neigbours in Blocked Elements
+        if self.grid[row, column] == self.BLOCKED:
+            return neighbours
+
+       
+        #row+1, row-1, column +1, column -1
+        next_row = row + 1
+        if (self.isInGrid(next_row, column) is True and self.grid[next_row][column] != self.BLOCKED):
+            neighbours.append([next_row, column])
+
+        previous_row = row - 1
+        if (self.isInGrid(previous_row,column) is True and self.grid[previous_row][column] != self.BLOCKED):
+            neighbours.append([previous_row, column])
+        
+        next_column = column + 1
+        if (self.isInGrid(row, next_column) is True and self.grid[row][next_column] != self.BLOCKED):
+            neighbours.append([row, next_column])
+
+        previous_column = column - 1
+        if (self.isInGrid(row, previous_column) is True and self.grid[row][previous_column] != self.BLOCKED):
+            neighbours.append([row, previous_column]) 
+
+        return neighbours
+
         # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
-        pass
+        
 
     # Gives a grid element as string, the result should be a string row,column
     def gridElementToString(self,row,col):
@@ -179,11 +219,19 @@ class MazeSolverAlgo:
     #############################
     def myMazeSolver(self):
         # TODO: this is you job now :-)
+#        start = [self.startRow , self.startCol]
+#        frontier = queue.PriorityQueue()
+#        frontier.put((0,start))
+#        startKey = self.gridElementToString(self.startRow, self.startCol)
+#        came_from = {}
+#        came_from[startKey]=None
         pass
+
 
     # Command for starting the solving procedure
     def solveMaze(self):
         return self.myMazeSolver()
+        
 
 
 if __name__ == '__main__':
@@ -195,6 +243,10 @@ if __name__ == '__main__':
 
     mg.loadMaze("/Users/nadinedussel/MazeRunner/MazeExamples/Maze1.txt")
     mg.printMaze()
+
+    ng = mg.getNeighbours(0,1)
+    print(ng)
+
     solutionString = mg.solveMaze()
     print(solutionString)
 
