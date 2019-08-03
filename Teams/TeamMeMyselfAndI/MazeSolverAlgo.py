@@ -220,9 +220,7 @@ class MazeSolverAlgo:
         start = [self.startRow, self.startCol]
         end = [self.endRow,self.endCol]
         current = end
-
-
-
+        
         path = []
         while current != start:
             path.append(current)

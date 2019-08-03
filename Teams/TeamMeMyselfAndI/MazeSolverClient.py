@@ -41,7 +41,9 @@ class MazeSolverClient:
     def publish(self, topic, message=None, qos=0, retain=False):
         # TODO: this is you job now :-)
         # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_publisher.py
-        pass
+        print("XX I WAS IN PUBLISH")
+        print("Published message: " , topic , " --> " , message)
+        self.master.publish(topic,message,qos,retain)
 
 
     # Implement MQTT receive message function
@@ -58,7 +60,8 @@ class MazeSolverClient:
                 print("XXXXXXXXXXXXXXXXXXXXX")
                 self.solver.startMaze(0,0)
             elif payload == "solve":
-                self.solver.solveMaze()
+                print("XX SOLVED XX")
+                self.solveMaze()
             elif payload == "end":
                 print("XX Payload END XX")
                 self.solver.endMaze()
@@ -86,8 +89,6 @@ class MazeSolverClient:
             pass
 
 
-      
-        #pass
 
     # Implement MQTT onConnecr function
     def onConnect(self, master, obj, flags, rc):
@@ -100,15 +101,20 @@ class MazeSolverClient:
         self.master.subscribe("/maze/startRow" )
         self.master.subscribe("/maze/endCol" )
         self.master.subscribe("/maze/endRow" )
-        self.master.subscribe("/maze/blocked" )        
+        self.master.subscribe("/maze/blocked" )     
+ 
 
     # Initiate the solving process of the maze solver
     def solveMaze(self):
-        # TODO: this is you job now :-)
+        path=self.solver.solveMaze()
+        print("XX I WAS HERE XX")
 
+        print(path)
+        # TODO: this is you job now :-)
+        for step in path:
+            step_str = '{},{}'.format(step[0],step[1])        
         #HINT:  don't forget to publish the results, e.g. 
-        #self.publish("/maze/go" , resultString)
-        pass
+            self.publish("/maze/go" , step_str)
 
     
 if __name__ == '__main__':
