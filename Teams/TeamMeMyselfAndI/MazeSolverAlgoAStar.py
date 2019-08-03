@@ -257,16 +257,13 @@ class MazeSolverAlgoAStar:
         while not frontier.empty():
             current = frontier.get()
             currentKey = self.gridElementToString(current[0],current[1])
-            print("Current = " , current)
 
             if (current[0]==end[0] and current[1]==end[1]):
-                print("ABBRUCH", current[0], current[1])
                 break
 
             print("Neighbours :" , self.getNeighbours(current[0],current[1]))
             for nextNeighbours in self.getNeighbours(current[0], current[1]):
                 new_cost = cost_so_far[currentKey]+1
-                print(new_cost , "NEW COST")
                 nextNeighboursKey = self.gridElementToString(nextNeighbours[0], nextNeighbours[1])
 
                 if (nextNeighboursKey not in cost_so_far or new_cost < cost_so_far[nextNeighboursKey]):
@@ -304,6 +301,6 @@ if __name__ == '__main__':
     print(ng)
 
     solutionString = mg.solveMaze()
-#    print(solutionString)
+    print(solutionString)
 
    

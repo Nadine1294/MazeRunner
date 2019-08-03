@@ -34,7 +34,7 @@ class MazeSolverClient:
         
         # This MQTT client forwards the requests, so you need a link to the solver
         # HINT: don't forget to create your algorithm class here, e.g.
-        if algo=="BREATHFIRST":
+        if algo == "BREATHFIRST":
             self.solver = MazeSolverAlgoBreathFirst()
         else:
             self.solver = MazeSolverAlgoAStar()
@@ -61,7 +61,7 @@ class MazeSolverClient:
             if payload == "clear":
                 self.solver.clearMaze() 
             elif payload == "start":
-                print("XXXXXXXXXXXXXXXXXXXXX")
+                print("XX start XX")
                 self.solver.startMaze(0,0)
             elif payload == "solve":
                 print("XX SOLVED XX")
@@ -111,7 +111,6 @@ class MazeSolverClient:
     # Initiate the solving process of the maze solver
     def solveMaze(self):
         path=self.solver.solveMaze()
-        print("XX I WAS HERE XX")
 
         print(path)
         # TODO: this is you job now :-)
