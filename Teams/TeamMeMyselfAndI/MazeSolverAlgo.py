@@ -140,11 +140,11 @@ class MazeSolverAlgo:
         # TODO: this is you job now :-)
         if row < 0:
             return False
-        if column < 0:
+        elif column < 0:
             return False
-        if row > self.dimRows:
+        elif row >= self.dimRows:
             return False
-        if column > self.dimCols:
+        elif column >= self.dimCols:
             return False
         else:
             return True
@@ -190,13 +190,20 @@ class MazeSolverAlgo:
     def gridElementToString(self,row,col):
         # TODO: this is you job now :-)
         # HINT: this method is used as primary key in a lookup table
-        pass
+        result = ""
+        result += str(row)
+        result += ","
+        result += str(col)
+        return result
     
     # check whether two different grid elements are identical
     # aGrid and bGrid are both elements [row,column]
     def isSameGridElement(self, aGrid, bGrid):
         # TODO: this is you job now :-)
-        pass
+        if (aGrid[0] == bGrid[0] and aGrid[1] == bGrid[1]):
+            return True
+        else:
+            return False
 
 
     # Defines a heuristic method used for A* algorithm
@@ -210,7 +217,21 @@ class MazeSolverAlgo:
     def generateResultPath(self,came_from):
         # TODO: this is you job now :-)
         # HINT: this method is a bit tricky as you have to invert the came_from list (follow the path from end to start)
-        pass
+        start = [self.startRow, self.startCol]
+        end = [self.endRow,self.endCol]
+        current = end
+
+
+
+        path = []
+        while current != start:
+            path.append(current)
+            current = came_from[self.gridElementToString(current[0],current[1])]
+            
+        path.append(start)
+        path.reverse()
+
+        return path
 
     #############################
     # Definition of Maze solver algorithm
@@ -219,13 +240,34 @@ class MazeSolverAlgo:
     #############################
     def myMazeSolver(self):
         # TODO: this is you job now :-)
-#        start = [self.startRow , self.startCol]
-#        frontier = queue.PriorityQueue()
-#        frontier.put((0,start))
-#        startKey = self.gridElementToString(self.startRow, self.startCol)
-#        came_from = {}
-#        came_from[startKey]=None
-        pass
+        print("XX in myMazeSolver XX")
+
+        ################ START BREATH FIRST ################
+
+        start = [self.startRow , self.startCol]
+        frontier = queue.Queue()
+        frontier.put(start)
+        startKey = self.gridElementToString(self.startRow, self.startCol)
+        came_from = {}
+        came_from[startKey]=None
+        
+        while not frontier.empty():
+            current = frontier.get()
+            print("Current = " , current)
+
+            for nextNeighbours in self.getNeighbours(current[0], current[1]):
+                nextNeighboursKey = self.gridElementToString(nextNeighbours[0], nextNeighbours[1])
+                if (nextNeighboursKey not in came_from):
+                    frontier.put(nextNeighbours)
+                    came_from[nextNeighboursKey] = current
+        
+        ################ END BREATH FIRST ################
+
+        path = self.generateResultPath(came_from)
+        print(path,"this is my Path")
+
+        return path
+                    
 
 
     # Command for starting the solving procedure
@@ -248,6 +290,6 @@ if __name__ == '__main__':
     print(ng)
 
     solutionString = mg.solveMaze()
-    print(solutionString)
+#    print(solutionString)
 
    
