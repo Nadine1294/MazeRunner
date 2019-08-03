@@ -211,7 +211,8 @@ class MazeSolverAlgoAStar:
     def heuristic(self, aGrid, bGrid):
         # TODO: this is you job now :-)
         # HINT: a good heuristic could be the distance between to grid elements aGrid and bGrid
-        pass
+        manhattanDistance = abs(aGrid[0]-bGrid[0])+ abs(aGrid[1]-bGrid[1])
+        return manhattanDistance
 
     # Generates the resulting path as string from the came_from list
     def generateResultPath(self,came_from):
@@ -240,26 +241,41 @@ class MazeSolverAlgoAStar:
         # TODO: this is you job now :-)
         print("XX in myMazeSolver XX")
 
-        ################ START BREATH FIRST ################
+        ################ START A STAR ################
 
         start = [self.startRow , self.startCol]
-        frontier = queue.Queue()
-        frontier.put(start)
+        end = [self.endRow, self.endCol]
+        frontier = queue.PriorityQueue()
+        frontier.put(start,0)
+        
         startKey = self.gridElementToString(self.startRow, self.startCol)
         came_from = {}
-        came_from[startKey]=None
+        came_from[startKey] = None
+        cost_so_far ={}
+        cost_so_far[startKey] = 0
         
         while not frontier.empty():
             current = frontier.get()
+            currentKey = self.gridElementToString(current[0],current[1])
             print("Current = " , current)
 
+            if (current[0]==end[0] and current[1]==end[1]):
+                print("ABBRUCH", current[0], current[1])
+                break
+
+            print("Neighbours :" , self.getNeighbours(current[0],current[1]))
             for nextNeighbours in self.getNeighbours(current[0], current[1]):
+                new_cost = cost_so_far[currentKey]+1
+                print(new_cost , "NEW COST")
                 nextNeighboursKey = self.gridElementToString(nextNeighbours[0], nextNeighbours[1])
-                if (nextNeighboursKey not in came_from):
-                    frontier.put(nextNeighbours)
+
+                if (nextNeighboursKey not in cost_so_far or new_cost < cost_so_far[nextNeighboursKey]):
+                    cost_so_far[nextNeighboursKey]=new_cost
+                    priority = new_cost + self.heuristic(end,nextNeighbours)
+                    frontier.put(nextNeighbours, priority)
                     came_from[nextNeighboursKey] = current
         
-        ################ END BREATH FIRST ################
+        ################ END A STAR ################
 
         path = self.generateResultPath(came_from)
         print(path,"this is my Path")
