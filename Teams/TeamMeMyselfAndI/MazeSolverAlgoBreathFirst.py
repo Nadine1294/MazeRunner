@@ -8,7 +8,7 @@ from math import sqrt
 import numpy
 import queue
 
-class MazeSolverAlgo:
+class MazeSolverAlgoBreathFirst:
 
     EMPTY = 0       # empty cell
     BLOCKED = 1    # cell with obstacle / blocked cell
@@ -220,7 +220,7 @@ class MazeSolverAlgo:
         start = [self.startRow, self.startCol]
         end = [self.endRow,self.endCol]
         current = end
-        
+
         path = []
         while current != start:
             path.append(current)
@@ -275,7 +275,7 @@ class MazeSolverAlgo:
 
 
 if __name__ == '__main__':
-    mg = MazeSolverAlgo()
+    mg = MazeSolverAlgoBreathFirst()
 
 
     # HINT: in case you want to develop the solver without MQTT messages and without always

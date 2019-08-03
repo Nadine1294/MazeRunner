@@ -6,7 +6,8 @@ import paho.mqtt.client as mqtt
 import time
 import array as arr
 import os
-from MazeSolverAlgo import MazeSolverAlgo
+from MazeSolverAlgoBreathFirst import MazeSolverAlgoBreathFirst
+from MazeSolverAlgoAStar import MazeSolverAlgoAStar
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     mqtt_server = os.environ['MQTTSERVER']
@@ -18,7 +19,7 @@ else:
 class MazeSolverClient:
 
     # initialize the MQTT client
-    def __init__(self,master):
+    def __init__(self,master,algo="BREATHFIRST"):
         # TODO: this is you job now :-)
 
         print("Constructor Sample_MQTT_Publisher")
@@ -33,7 +34,10 @@ class MazeSolverClient:
         
         # This MQTT client forwards the requests, so you need a link to the solver
         # HINT: don't forget to create your algorithm class here, e.g.
-        self.solver = MazeSolverAlgo()
+        if algo=="BREATHFIRST":
+            self.solver = MazeSolverAlgoBreathFirst()
+        else:
+            self.solver = MazeSolverAlgoAStar()
 
         #self.solver.printMaze()
 
@@ -120,5 +124,5 @@ class MazeSolverClient:
 if __name__ == '__main__':
     mqttclient=mqtt.Client()
     #HINT: maybe you rename the MazeSolverAlgoTemplate class ?
-    solverClient = MazeSolverClient(mqttclient)
+    solverClient = MazeSolverClient(mqttclient,"ASTAR")
     solverClient.master.loop_forever()
