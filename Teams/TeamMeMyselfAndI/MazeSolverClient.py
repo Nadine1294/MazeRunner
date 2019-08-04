@@ -14,26 +14,19 @@ if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
 else:
     mqtt_server = "127.0.0.1"
 
-# HINT: it might be a good idea to copy this file into your team folder, e.g. TeamA
-# HINT: it might be good idea to rename both the file and the class name
 class MazeSolverClient:
 
     # initialize the MQTT client
     def __init__(self,master,algo="BREATHFIRST"):
-        # TODO: this is you job now :-)
 
         print("Constructor Sample_MQTT_Publisher")
         self.master=master
 
-        # HINT: here you should register the onConnect and onMessage callback functions
-        #       it might be a good idea to look into file Framework\Test\test_mqtt_publisher.py
         self.master.on_connect=self.onConnect
         self.master.on_message=self.onMessage
 
         self.master.connect(mqtt_server,1883,60)
         
-        # This MQTT client forwards the requests, so you need a link to the solver
-        # HINT: don't forget to create your algorithm class here, e.g.
         if algo == "BREATHFIRST":
             self.solver = MazeSolverAlgoBreathFirst()
         else:
@@ -43,8 +36,6 @@ class MazeSolverClient:
 
     # Implement MQTT publishing function
     def publish(self, topic, message=None, qos=0, retain=False):
-        # TODO: this is you job now :-)
-        # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_publisher.py
         print("XX I WAS IN PUBLISH")
         print("Published message: " , topic , " --> " , message)
         self.master.publish(topic,message,qos,retain)
@@ -52,8 +43,6 @@ class MazeSolverClient:
 
     # Implement MQTT receive message function
     def onMessage(self, master, obj, msg):
-        # TODO: this is you job now :-)
-        # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_subscriber.py
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
         print("TEAM_MeMyselfAndI: Received message:", topic , " --> " , payload)
@@ -96,8 +85,6 @@ class MazeSolverClient:
 
     # Implement MQTT onConnecr function
     def onConnect(self, master, obj, flags, rc):
-        # TODO: this is you job now :-)
-        # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_subscriber.py
         self.master.subscribe("/maze" )
         self.master.subscribe("/maze/dimRow" )
         self.master.subscribe("/maze/dimCol" )
@@ -113,15 +100,14 @@ class MazeSolverClient:
         path=self.solver.solveMaze()
 
         print(path)
-        # TODO: this is you job now :-)
+
         for step in path:
-            step_str = '{},{}'.format(step[0],step[1])        
-        #HINT:  don't forget to publish the results, e.g. 
+            step_str = '{},{}'.format(step[0],step[1])
             self.publish("/maze/go" , step_str)
 
     
 if __name__ == '__main__':
     mqttclient=mqtt.Client()
-    #HINT: maybe you rename the MazeSolverAlgoTemplate class ?
+
     solverClient = MazeSolverClient(mqttclient,"ASTAR")
     solverClient.master.loop_forever()
